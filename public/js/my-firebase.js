@@ -28,4 +28,25 @@ window.addEventListener('load', function () {
     containerElement.innerHTML += out;
   });
 
+
+  var pollRef = firebase.database().ref('/poll/');
+  pollRef.on('value', function (data) {
+    console.log("service: " + data.val().service);
+    console.log("url: " + data.val().url);
+
+    if (data.val().service == true) {
+      var pollContainerElement = document.getElementById("js-poll");
+
+      var out = "";
+      out += '<div class="mt-4 col-md-12 text-center">';
+      out += '<a class="btn btn-danger text-uppercase js-scroll-trigger" href="' + data.val().url + '">GO TO POLL</a>';
+      out += '</div>';
+ 
+      pollContainerElement.innerHTML += out;
+    }
+    else if (data.val().service == false) {
+      var pollContainerElement = document.getElementById("js-poll");
+      pollContainerElement.innerHTML = "";
+    }
+  });
 }, false);
