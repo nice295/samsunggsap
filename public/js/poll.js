@@ -1,46 +1,40 @@
 (function($) {
   "use strict"; // Start of use strict
 
-  var containerElement = document.getElementById("js-firebase");
+    var pollStaticRef = firebase.database().ref('/poll-static/');
 
-  // Get a reference to the database service
-  var mentorsRef = firebase.database().ref('/polls/');
-  mentorsRef.on('child_added', function (data) {
-    // console.log("name: " + data.val().name);
-    // console.log("name: " + data.val().enabled);
-    // console.log("name: " + data.val().url);
+    pollStaticRef.on('child_added', function (data) {
+      console.log("id: " + data.val().id);
+      console.log("enable: " + data.val().enable);
+      console.log("url: " + data.val().url);
 
-    var out = "";
-    out += '<div class="col-sm-4">'
-    out += '<div class="team-member">';
-    out += '  <h4>' + data.val().name + '</h4>';
-    if (data.val().enabled == true) {
-      out += '  <a id="startup-btn-' + data.val().name + '" class="visible btn btn-danger text-uppercase js-scroll-trigger" href="' + data.val().url + '" target="_blank">POLL</a>';
-    }
-    else {
-      out += '  <a id="startup-btn-' + data.val().name + '" class="invisible btn btn-danger text-uppercase js-scroll-trigger" href="' + data.val().url + '" target="_blank">POLL</a>'; 
-    }
-    out += '</div>';
-    out += '</div>';
+      $('#'+data.val().id).attr("href", data.val().url)
 
-    containerElement.innerHTML += out;
-  });
+      if (data.val().enable) {
+        $('#'+data.val().id).removeClass("invisible");
+        $('#'+data.val().id).addClass("visible");
+      }
+      else {
+        $('#'+data.val().id).removeClass("visible");
+        $('#'+data.val().id).addClass("invisible");
+      }
+    });
 
-  mentorsRef.on('child_changed', function (data) {
-    // console.log("name: " + data.val().name);
-    // console.log("name: " + data.val().enabled);
-    // console.log("name: " + data.val().url);
+    pollStaticRef.on('child_changed', function (data) {
+      console.log("id: " + data.val().id);
+      console.log("enable: " + data.val().enable);
+      console.log("url: " + data.val().url);
 
-    var startupID = "#startup-btn-" +data.val().name;
-
-    if ( data.val().enabled == true ) {
-      $(startupID).removeClass("invisible");
-      $(startupID).addClass("visible");
-    }
-    else {
-      $(startupID).removeClass("visible");
-      $(startupID).addClass("invisible");
-    }
-  });
+      $('#'+data.val().id).attr("href", data.val().url)
  
+      if (data.val().enable) {
+        $('#'+data.val().id).removeClass("invisible");
+        $('#'+data.val().id).addClass("visible");
+      }
+      else {
+        $('#'+data.val().id).removeClass("visible");
+        $('#'+data.val().id).addClass("invisible");
+      }
+    });
+
 })(jQuery); // End of use strict
