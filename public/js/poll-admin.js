@@ -2,16 +2,22 @@
   "use strict"; // Start of use strict
 
     var pollStaticRef = firebase.database().ref('/poll-static/');
-
+    
     pollStaticRef.on('child_added', function (data) {
       // console.log("id: " + data.val().id);
       // console.log("enable: " + data.val().enable);
       // console.log("url: " + data.val().url);
+      // console.log("ref: " + data.ref);
+      // console.log("enable ref: " + data.ref+"/enable/");
 
       var htmlString = "";
       htmlString += '<div class="col-sm-4">';
       htmlString += '<div class="team-member">';
       htmlString += `<h5>${data.val().name}</h5>`;
+      htmlString += '<p>';
+      htmlString += `<a id="btn-enable-${data.val().id}" class="m-1 btn btn-secondary text-white text-uppercase js-scroll-trigger">ON</a>`;
+      htmlString += `<a id="btn-disable-${data.val().id}" class="m-1 btn btn-secondary text-white text-uppercase js-scroll-trigger">OFF</a>`;
+      htmlString += '</p>';
       if (data.val().enable) {
         htmlString += `<a id="${data.val().id}" class="visible btn btn-danger text-uppercase js-scroll-trigger" href="${data.val().url}" target="_blank">POLL</a>`;
       }
@@ -22,6 +28,24 @@
       htmlString += '</div>';
 
       $("#js-poll").append(htmlString);
+
+      $(`#btn-enable-${data.val().id}`).on("click", function(){
+        console.log(`Enabling ${data.val().id}...`);
+
+        firebase.database().ref('poll-static/' + data.key).update({
+          enable: true
+        });
+
+      });
+
+      $(`#btn-disable-${data.val().id}`).on("click", function(){
+        console.log(`Disabling ${data.val().id}...`);
+
+        firebase.database().ref('poll-static/' + data.key).update({
+          enable: false
+        });
+      });
+
     });
 
     pollStaticRef.on('child_changed', function (data) {
