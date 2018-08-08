@@ -13,10 +13,10 @@
       htmlString += '<div class="team-member">';
       htmlString += `<h5>${data.val().name}</h5>`;
       if (data.val().enable) {
-        htmlString += `<div id="${data.val().id}" style="display:block;"><iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfXmBeXtJpopi4r1L6606_kTI-etpBmgTBmSydzqcH-y2D6DA/viewform?embedded=true" width="100%" height="900px" frameborder="0" marginheight="0" marginwidth="0">로드 중...</iframe></div>`;
+        htmlString += `<div id="${data.val().id}" style="display:block;"><iframe src="${data.val().url}" width="100%" height="900px" frameborder="0" marginheight="0" marginwidth="0">로드 중...</iframe></div>`;
       }
       else {
-        htmlString += `<div id="${data.val().id}" style="display:none;"><iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfXmBeXtJpopi4r1L6606_kTI-etpBmgTBmSydzqcH-y2D6DA/viewform?embedded=true" width="100%" height="900px" frameborder="0" marginheight="0" marginwidth="0">로드 중...</iframe></div>`;
+        htmlString += `<div id="${data.val().id}" style="display:none;"><iframe src="${data.val().url}" width="100%" height="900px" frameborder="0" marginheight="0" marginwidth="0">로드 중...</iframe></div>`;
       }
       htmlString += '<div>';
       htmlString += '</div>';
